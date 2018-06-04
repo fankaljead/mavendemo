@@ -6,6 +6,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
 
 import java.io.Reader;
 import java.text.MessageFormat;
@@ -38,7 +39,7 @@ public class UserTest {
             // 用户数据列表
             getUserList();
             // 插入数据
-            // testInsert();
+//             testInsert();
 
             // 更新用户
             //testUpdate();
@@ -51,7 +52,8 @@ public class UserTest {
     }
 
     //
-    public static void testInsert() {
+    @Test
+    public void testInsert() {
         try {
             // 获取Session连接
             SqlSession session = sqlSessionFactory.openSession();
@@ -79,7 +81,8 @@ public class UserTest {
     }
 
     // 获取用户列表
-    public static void getUserList() {
+    @Test
+    public void getUserList() {
         try {
             SqlSession session = sqlSessionFactory.openSession();
             IUser iuser = session.getMapper(IUser.class);
@@ -92,7 +95,8 @@ public class UserTest {
         }
     }
 
-    public static void testUpdate() {
+    @Test
+    public void testUpdate() {
         try {
             SqlSession session = sqlSessionFactory.openSession();
             IUser iuser = session.getMapper(IUser.class);
@@ -114,7 +118,8 @@ public class UserTest {
     }
 
     // 删除用户信息
-    public static void testDelete() {
+    @Test
+    public void testDelete() {
         try {
             SqlSession session = sqlSessionFactory.openSession();
             IUser iuser = session.getMapper(IUser.class);
