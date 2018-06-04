@@ -37,7 +37,7 @@ public class UserTest {
         try {
 
             // 用户数据列表
-            getUserList();
+//            getUserList();
             // 插入数据
 //             testInsert();
 
