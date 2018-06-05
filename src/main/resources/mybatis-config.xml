@@ -7,7 +7,10 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
+    <typeAliases>
+        <typeAlias alias="User" type="models.User" />
+        <typeAlias alias="Post" type="models.Post" />
+    </typeAliases>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -18,7 +21,7 @@
                 <!--<property name="password" value="${password}"/>-->
 
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://192.168.1.2:3306/java_course?characterEncoding=utf-8&amp;autoReconnect=true&amp;useSSL=false&amp;serverTimezone=GMT"/>
+                <property name="url" value="jdbc:mysql://192.168.1.2:3306/mybatisdemo?characterEncoding=utf-8&amp;autoReconnect=true&amp;useSSL=false&amp;serverTimezone=GMT"/>
                 <property name="username" value="root"/>
                 <property name="password" value="212kawH!"/>
             </dataSource>

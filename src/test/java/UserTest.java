@@ -1,15 +1,11 @@
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import dao.IUser;
+import models.Post;
 import models.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.junit.Test;
 
 import java.io.Reader;
-import java.text.MessageFormat;
 import java.util.List;
 
 public class UserTest {
@@ -30,132 +26,22 @@ public class UserTest {
     }
 
     /**
+     * mybatis表关联一对多
      * @param args
      */
     public static void main(String[] args) {
         SqlSession session = sqlSessionFactory.openSession();
         try {
-
-            // 用户数据列表
-//            getUserList();
-            // 插入数据
-//             testInsert();
-
-            // 更新用户
-            //testUpdate();
-
-            // 删除数据
-            //testDelete();
+            int userid = 1;
+            User user = session.selectOne("userMapper.getUser", userid);
+            System.out.println("username: "+user.getUsername()+", mobile: " + user.getMobile());
+            List<Post> posts = user.getPosts();
+            for(Post p : posts) {
+                System.out.println("Title:" + p.getTitle());
+                System.out.println("Content:" + p.getContent());
+            }
         } finally {
             session.close();
         }
     }
-
-    //
-    @Test
-    public void testInsert() {
-        try {
-            // 获取Session连接
-            SqlSession session = sqlSessionFactory.openSession();
-            // 获取Mapper
-            IUser userMapper = session.getMapper(IUser.class);
-            System.out.println("Test insert start...");
-            // 执行插入
-            User user = new User();
-            user.setId(0);
-            user.setName("Google");
-            user.setDept("Tech");
-            user.setWebsite("http://www.google.com");
-            user.setPhone("120");
-            userMapper.insertUser(user);
-            // 提交事务
-            session.commit();
-
-            // 显示插入之后User信息
-            System.out.println("After insert");
-            getUserList();
-            System.out.println("Test insert finished...");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 获取用户列表
-    @Test
-    public void getUserList() {
-        try {
-            SqlSession session = sqlSessionFactory.openSession();
-            IUser iuser = session.getMapper(IUser.class);
-            // 显示User信息
-            System.out.println("Test Get start...");
-            printUsers(iuser.getUserList());
-            System.out.println("Test Get finished...");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void testUpdate() {
-        try {
-            SqlSession session = sqlSessionFactory.openSession();
-            IUser iuser = session.getMapper(IUser.class);
-            System.out.println("Test update start...");
-            printUsers(iuser.getUserList());
-            // 执行更新
-            User user = iuser.getUser(1);
-            user.setName("New name");
-            iuser.updateUser(user);
-            // 提交事务
-            session.commit();
-            // 显示更新之后User信息
-            System.out.println("After update");
-            printUsers(iuser.getUserList());
-            System.out.println("Test update finished...");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 删除用户信息
-    @Test
-    public void testDelete() {
-        try {
-            SqlSession session = sqlSessionFactory.openSession();
-            IUser iuser = session.getMapper(IUser.class);
-            System.out.println("Test delete start...");
-            // 显示删除之前User信息
-            System.out.println("Before delete");
-            printUsers(iuser.getUserList());
-            // 执行删除
-            iuser.deleteUser(2);
-            // 提交事务
-            session.commit();
-            // 显示删除之后User信息
-            System.out.println("After delete");
-            printUsers(iuser.getUserList());
-            System.out.println("Test delete finished...");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 打印用户信息到控制台
-     *
-     * @param users
-     */
-    private static void printUsers(final List<User> users) {
-        int count = 0;
-
-        for (User user : users) {
-            System.out.println(MessageFormat.format(
-                    "============= User[{0}]=================", ++count));
-            System.out.println("User Id: " + user.getId());
-            System.out.println("User Name: " + user.getName());
-            System.out.println("User Dept: " + user.getDept());
-            System.out.println("User Website: " + user.getWebsite());
-        }
-    }
-
 }
